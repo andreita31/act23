@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario Game</title>
+    <style>
+        canvas{
+            display: block;
+            margin: auto;
+            background-color: rgb(179, 238, 254);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="800" height="500" style="border:5px solid grey"></canvas>
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+
+        questionBlock(20, 190);
+        questionBlock(160, 50);
+        questionBlock(107, 50);
+        questionBlock(690, 50);
+        //azul
+        colorRect(250, 160, 150, 240, "rgb(132, 190, 255)", "rgb(2, 144, 229)");
+        //rosa
+        colorRect(170, 250, 150, 150, "rgb(255, 195, 184)", "rgb(249, 158, 111)");
+        //verde
+        colorRect(680, 250, 150, 150, "rgb(81, 217, 107)", "rgb(43, 122, 46)");
+
+        pipe(500, 249, 90, 150);
+        
+        //suelo
+        ctx.fillStyle = "rgb(248, 197, 178)";
+        ctx.fillRect(0, 400, 800, 100);
+        grid();
+        //
+        function grid(){
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = "black";
+            var b_w = 800, b_h = 500, p = 25;
+            for (var x = 0; x <= b_w; x += p) {
+                ctx.beginPath();
+                ctx.moveTo(x, 420);
+                ctx.lineTo(x, 800);
+                ctx.stroke();
+                ctx.closePath();
+
+            }
+
+            for (var y = 420; y <= b_h; y += p) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(800, y);
+                ctx.stroke();
+                ctx.closePath();
+
+            }
+        }
+        ctx.stroke();
+
+        function pipe(x, y, w, h){
+            ctx.fillStyle = "rgb(25, 138, 0)";
+            ctx.strokeStyle = "black";
+            ctx.fillRect(x, y, w, h);
+            //luz
+            ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+            ctx.fillRect(x, y, w - ((w /4) * 2), h);
+            //luz 2
+            ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+            ctx.fillRect(x, y, w - ((w /5) * 4), h);
+            //sombra
+            ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+            ctx.fillRect(x + (w - (w/4)), y, w - ((w /4) * 3), h);
+
+            ctx.strokeRect(x, y, w, h);
+
+            ctx.fillStyle = "rgb(25, 138, 0)";
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = "black";
+            var a_x = x-5, a_w = w + 10, a_h = h/3;
+            ctx.fillRect(a_x, y, a_w, (h/3));
+            //luz
+            ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+            ctx.fillRect(a_x, y, a_w - (((w /4) * 2) + 5), a_h);
+            //luz 2
+            ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+            ctx.fillRect(a_x, y, a_w - (((w /5) * 4) + 5), a_h);
+            //sombra
+            ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+            ctx.fillRect(x + (w - (w/4)), y, w - ((w /4) * 3) + 5, a_h);
+
+            ctx.strokeRect(a_x, y, a_w, (h/3));
+        }
+
+        function colorRect(x, y, w, h, color, color2){
+            //sombra
+            ctx.beginPath();
+            ctx.fillStyle = "black";
+            ctx.roundRect(x + 25, y + 20, w , h - 20, 5);
+            ctx.fill();
+            ctx.closePath();
+
+
+            ctx.fillStyle = color;
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = "black";
+            ctx.beginPath();
+            ctx.roundRect(x, y, w, h, 5);
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+
+            
+            //luz
+            ctx.fillStyle = color2;
+            ctx.beginPath();
+            ctx.roundRect(x + (w - (w/12) - 2), y + 2, 12, h - 4, 2);
+            ctx.fill();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.roundRect(x + 2, y + (h - (h/24) - 2), w - 6, 10, 2);
+            ctx.fill();
+            ctx.closePath();
+
+            
+            //cuatro puntos
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "black";
+            ctx.fillStyle = "white";
+            ctx.beginPath();
+            ctx.arc(x + 16, y + 16, 8, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+
+
+            ctx.beginPath();
+            ctx.arc(x + (w - 16), y + 16, 8, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+
+
+            ctx.beginPath();
+            ctx.arc(x + (w - 16), y + (h - 16), 8, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+
+
+            ctx.beginPath();
+            ctx.arc(x + 16, y + (h - 16), 8, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+        }
+
+        function questionBlock(x, y){
+            ctx.fillStyle = "rgb(227, 162, 49)";
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = "black";
+            ctx.fillRect(x, y, 50, 50);
+            ctx.strokeRect(x, y, 50, 50);
+            ctx.fillStyle = "black";
+            ctx.fillRect(x + 5, y + 5, 5, 5);
+            ctx.fillRect(x + 5, y + 40, 5, 5);
+            ctx.fillRect(x + 40, y + 5, 5, 5);
+            ctx.fillRect(x + 40, y + 40, 5, 5);
+        }
+    </script>
+</body>
+</html>
